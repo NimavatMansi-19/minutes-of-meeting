@@ -5,11 +5,19 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // ✅ Enable CORS
- app.enableCors({
-  origin: [
-    'http://localhost:3001',
-    'https://minutes-of-meeting-dpeo.vercel.app'
-  ],
+app.enableCors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+
+    if (
+      origin.includes('localhost') ||
+      origin.includes('vercel.app')
+    ) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
 });
 
