@@ -6,21 +6,9 @@ async function bootstrap() {
 
   // ✅ Enable CORS
 app.enableCors({
-  origin: (origin, callback) => {
-    if (!origin) return callback(null, true);
-
-    if (
-      origin.includes('localhost') ||
-      origin.includes('vercel.app')
-    ) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: true,
   credentials: true,
 });
-
   await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
